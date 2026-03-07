@@ -1,86 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robust Labs LLC</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #1a1a1f;
-            color: #e8e4f0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-        .container {
-            max-width: 600px;
-            width: 100%;
-        }
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-        }
-        h2 {
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-            color: #d0cbdf;
-        }
-        p, li {
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        section { margin-bottom: 2rem; }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        ul li::before {
-            content: "– ";
-            color: #a9a2be;
-        }
-        a {
-            color: #c4bdd6;
-            text-decoration: none;
-        }
-        a:hover { text-decoration: underline; }
-        footer {
-            margin-top: 3rem;
-            font-size: 0.8rem;
-            color: #8a8499;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Robust Labs LLC</h1>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Robust Labs LLC</title>
+        <style>
+            @font-face {
+                font-family: "HK Grotesk";
+                src: url("assets/fonts/hkgrotesk_regular.woff")
+                    format("woff");
+                font-weight: 400;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: "HK Grotesk";
+                src: url("assets/fonts/hkgrotesk_bold.woff") format("woff");
+                font-weight: 700;
+                font-style: normal;
+            }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                background: #1a1a1f;
+                color: #d4c8e8;
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+                    Arial, sans-serif;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+            .container {
+                max-width: 600px;
+                width: 100%;
+            }
+            h1 {
+                font-size: 1.5rem;
+                font-weight: 600;
+                margin-bottom: 5rem;
+                color: #e0d4f5;
+            }
+            h2 {
+                font-size: 0.875rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 1rem;
+                color: #b8a4d6;
+            }
+            p,
+            li {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+            section {
+                margin-bottom: 4rem;
+            }
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+            ul li::before {
+                content: "– ";
+                color: #9b8abf;
+            }
+            .cacha-item {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+            }
+            .cacha-item::before {
+                display: none;
+            }
+            .cacha-logo {
+                width: 24px;
+                height: 24px;
+                object-fit: contain;
+                flex-shrink: 0;
+            }
+            .cacha-name {
+                font-family: "HK Grotesk", sans-serif;
+                font-weight: 700;
+                color: #ebebeb;
+            }
+            .cacha-link {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                text-decoration: none;
+            }
+            .cacha-link:hover .cacha-name {
+                text-decoration: underline;
+            }
+            a {
+                color: #c4b0e0;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            footer {
+                margin-top: 5rem;
+                font-size: 0.8rem;
+                color: #7a6d96;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Robust Labs LLC</h1>
 
-        <section>
-            <h2>About Us</h2>
-            <p>Robust Labs LLC is a technology company specializing in mobile application development.</p>
-        </section>
+            <section>
+                <h2>About Us</h2>
+                <p>
+                    Robust Labs is focused on using AI to deliver productivity,
+                    education and gaming apps with maximum value at marginal
+                    cost.
+                </p>
+            </section>
 
-        <section>
-            <h2>Our Products</h2>
-            <ul>
-                <li><strong>Cacha</strong> — A minimalist thought-capture app (<a href="https://cacha.app">cacha.app</a>)</li>
-            </ul>
-        </section>
+            <section>
+                <h2>Our Products</h2>
+                <ul>
+                    <li class="cacha-item">
+                        <a href="https://cacha.app" class="cacha-link"><img src="assets/cacha-logo.png" alt="Cacha logo" class="cacha-logo" /><span class="cacha-name">Cacha</span></a> — A minimalist thought-capture app
+                    </li>
+                </ul>
+            </section>
 
-        <section>
-            <h2>Contact</h2>
-            <p>rob@robustlabs.xyz</p>
-            <p>Brooklyn, NY</p>
-        </section>
+            <section>
+                <h2>Reach Out</h2>
+                <p>hey@robustlabs.xyz</p>
+            </section>
 
-        <footer>&copy; 2024 Robust Labs LLC</footer>
-    </div>
-</body>
+            <footer>&copy; 2026 Robust Labs LLC</footer>
+        </div>
+    </body>
 </html>
