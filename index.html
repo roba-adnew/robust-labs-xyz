@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Robust Labs</title>
+        <title>Robust Labs — AI-Powered Software Development</title>
+        <meta name="description" content="Robust Labs LLC is a Brooklyn-based software development company building AI-powered productivity, education, and gaming applications. Democratizing access to quality software at near cost." />
         <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
         <style>
             @font-face {
@@ -24,6 +25,9 @@
                 padding: 0;
                 box-sizing: border-box;
             }
+            html {
+                scroll-behavior: smooth;
+            }
             body {
                 background: #1a1a1f;
                 color: #ebebeb;
@@ -31,81 +35,299 @@
                     -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
                     Arial, sans-serif;
                 min-height: 100vh;
+                line-height: 1.6;
+            }
+
+            /* ── Navigation ───────────────────────────────── */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: rgba(26, 26, 31, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                z-index: 100;
+                padding: 0 2rem;
+            }
+            .nav-inner {
+                max-width: 900px;
+                margin: 0 auto;
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                padding: 2rem;
+                justify-content: space-between;
+                height: 60px;
             }
-            .container {
-                max-width: 600px;
-                width: 100%;
-            }
-            h1 {
-                font-size: 1.5rem;
-                font-weight: 600;
-                margin-bottom: 5rem;
+            .nav-brand {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                text-decoration: none;
                 color: #e0d4f5;
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
+                font-weight: 600;
+                font-size: 0.95rem;
             }
-            .site-logo {
-                width: 36px;
-                height: 36px;
-                margin-left: -48px;
+            .nav-brand img {
+                width: 28px;
+                height: 28px;
+            }
+            .nav-links {
+                display: flex;
+                gap: 1.5rem;
+                list-style: none;
+            }
+            .nav-links a {
+                color: #a0a0a0;
+                text-decoration: none;
+                font-size: 0.85rem;
+                transition: color 0.2s;
+            }
+            .nav-links a:hover {
+                color: #ebebeb;
+            }
+
+            /* ── Mobile nav toggle ────────────────────────── */
+            .nav-toggle {
+                display: none;
+                background: none;
+                border: none;
+                color: #a0a0a0;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 0.25rem;
+            }
+
+            /* ── Layout ───────────────────────────────────── */
+            .container {
+                max-width: 900px;
+                width: 100%;
+                margin: 0 auto;
+                padding: 0 2rem;
+            }
+
+            /* ── Hero ─────────────────────────────────────── */
+            .hero {
+                padding: 10rem 0 6rem;
+                text-align: center;
+            }
+            .hero-logo {
+                width: 64px;
+                height: 64px;
+                margin-bottom: 1.5rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: #e0d4f5;
+                margin-bottom: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.15rem;
+                color: #a0a0a0;
+                max-width: 600px;
+                margin: 0 auto 2rem;
+                line-height: 1.7;
+            }
+
+            /* ── Sections ─────────────────────────────────── */
+            section {
+                padding: 5rem 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
             }
             h2 {
                 font-size: 0.875rem;
                 font-weight: 600;
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
-                margin-bottom: 1rem;
+                margin-bottom: 2rem;
+                color: #e0d4f5;
+            }
+            h3 {
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin-bottom: 0.75rem;
                 color: #ebebeb;
             }
-            p,
-            li {
+            p {
                 font-size: 0.95rem;
                 line-height: 1.8;
+                color: #c0c0c0;
             }
-            section {
-                margin-bottom: 4rem;
+            p + p {
+                margin-top: 1rem;
             }
-            ul {
-                list-style: none;
-                padding: 0;
+
+            /* ── About ────────────────────────────────────── */
+            .about-content {
+                max-width: 700px;
             }
-            ul li::before {
-                content: "– ";
+            .mission-statement {
+                font-size: 1.15rem;
+                color: #ebebeb;
+                line-height: 1.8;
+                margin-bottom: 1.5rem;
+                border-left: 2px solid #e0d4f5;
+                padding-left: 1.25rem;
+            }
+
+            /* ── Services grid ────────────────────────────── */
+            .services-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+                margin-top: 1.5rem;
+            }
+            .service-card {
+                padding: 1.5rem;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.02);
+            }
+            .service-card h3 {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            .service-card p {
+                font-size: 0.875rem;
+                line-height: 1.7;
                 color: #a0a0a0;
             }
-            .cacha-item {
+
+            /* ── Products ─────────────────────────────────── */
+            .product-card {
                 display: flex;
-                align-items: center;
-                gap: 0.6rem;
+                align-items: flex-start;
+                gap: 1.25rem;
+                padding: 2rem;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.02);
             }
-            .cacha-item::before {
-                display: none;
-            }
-            .cacha-logo {
-                width: 24px;
-                height: 24px;
+            .product-card img {
+                width: 48px;
+                height: 48px;
                 object-fit: contain;
                 flex-shrink: 0;
+                border-radius: 10px;
             }
-            .cacha-name {
+            .product-info h3 {
                 font-family: "HK Grotesk", sans-serif;
                 font-weight: 700;
-                color: #ebebeb;
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
             }
-            .cacha-link {
-                display: flex;
-                align-items: center;
-                gap: 0.6rem;
+            .product-info h3 a {
+                color: #ebebeb;
                 text-decoration: none;
             }
-            .cacha-link:hover .cacha-name {
+            .product-info h3 a:hover {
                 text-decoration: underline;
             }
+            .product-info p {
+                font-size: 0.9rem;
+                color: #a0a0a0;
+                margin-bottom: 0.75rem;
+            }
+            .product-status {
+                display: inline-block;
+                font-size: 0.75rem;
+                padding: 0.2rem 0.6rem;
+                background: rgba(224, 212, 245, 0.1);
+                color: #e0d4f5;
+                border-radius: 4px;
+                font-weight: 500;
+            }
+
+            /* ── Approach ─────────────────────────────────── */
+            .approach-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            .approach-item h3 {
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+            .approach-item p {
+                font-size: 0.875rem;
+                color: #a0a0a0;
+                line-height: 1.7;
+            }
+
+            /* ── Team ─────────────────────────────────────── */
+            .team-card {
+                width: 100%;
+            }
+            .team-card h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.25rem;
+            }
+            .team-card .role {
+                font-size: 0.85rem;
+                color: #e0d4f5;
+                margin-bottom: 0.75rem;
+            }
+            .team-card p {
+                font-size: 0.9rem;
+                color: #a0a0a0;
+                line-height: 1.7;
+            }
+
+            /* ── Contact ──────────────────────────────────── */
+            .contact-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 2rem;
+            }
+            .contact-item h3 {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            .contact-item p,
+            .contact-item a {
+                font-size: 0.9rem;
+                color: #a0a0a0;
+            }
+            .contact-item a {
+                text-decoration: none;
+            }
+            .contact-item a:hover {
+                color: #ebebeb;
+                text-decoration: underline;
+            }
+
+            /* ── Footer ───────────────────────────────────── */
+            footer {
+                padding: 3rem 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
+            }
+            .footer-inner {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .footer-copy {
+                font-size: 0.8rem;
+                color: #888888;
+            }
+            .footer-links {
+                display: flex;
+                gap: 1.5rem;
+                list-style: none;
+            }
+            .footer-links a {
+                font-size: 0.8rem;
+                color: #888888;
+                text-decoration: none;
+            }
+            .footer-links a:hover {
+                color: #ebebeb;
+            }
+
+            /* ── Links ────────────────────────────────────── */
             a {
                 color: #ebebeb;
                 text-decoration: none;
@@ -113,41 +335,163 @@
             a:hover {
                 text-decoration: underline;
             }
-            footer {
-                margin-top: 5rem;
-                font-size: 0.8rem;
-                color: #888888;
+
+            /* ── Responsive ───────────────────────────────── */
+            @media (max-width: 768px) {
+                .hero {
+                    padding: 8rem 0 4rem;
+                }
+                .hero h1 {
+                    font-size: 1.75rem;
+                }
+                .hero .tagline {
+                    font-size: 1rem;
+                }
+                section {
+                    padding: 3rem 0;
+                }
+                .nav-links {
+                    display: none;
+                    position: absolute;
+                    top: 60px;
+                    left: 0;
+                    right: 0;
+                    background: rgba(26, 26, 31, 0.98);
+                    flex-direction: column;
+                    padding: 1rem 2rem;
+                    gap: 0.75rem;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                }
+                .nav-links.open {
+                    display: flex;
+                }
+                .nav-toggle {
+                    display: block;
+                }
+                .approach-grid {
+                    grid-template-columns: 1fr;
+                }
+                .product-card {
+                    flex-direction: column;
+                }
             }
         </style>
     </head>
     <body>
-        <div class="container">
-            <h1><img src="assets/robust-labs-logo.svg" alt="Robust Labs logo" class="site-logo" />Robust Labs LLC</h1>
-
-            <section>
-                <h2>About Us</h2>
-                <p>
-                    Robust Labs aims to deliver productivity,
-                    education and gaming apps with maximum value at marginal
-                    cost.
-                </p>
-            </section>
-
-            <section>
-                <h2>Our Products</h2>
-                <ul>
-                    <li class="cacha-item">
-                        <a href="https://cacha.app" class="cacha-link"><img src="assets/cacha-logo.png" alt="Cacha logo" class="cacha-logo" /><span class="cacha-name">Cacha</span></a> — A minimalist thought-capture app
-                    </li>
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-inner">
+                <a href="#" class="nav-brand">
+                    <img src="assets/robust-labs-logo.svg" alt="Robust Labs" />
+                    Robust Labs
+                </a>
+                <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">&#9776;</button>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#approach">Approach</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <div class="container">
+            <div class="hero">
+                <img src="assets/robust-labs-logo.svg" alt="Robust Labs logo" class="hero-logo" />
+                <h1>Robust Labs LLC</h1>
+                <p class="tagline">Building AI-powered software that makes quality tools accessible to everyone. Based in Brooklyn, NY.</p>
+            </div>
+
+            <!-- About -->
+            <section id="about">
+                <h2>About</h2>
+                <div class="about-content">
+                    <p class="mission-statement">Quality software shouldn't be a luxury. Robust Labs exists to democratize access to powerful, well-crafted applications — delivering them at near cost so that anyone, anywhere can benefit.</p>
+                    <p>Robust Labs LLC was founded in 2026 by Roba Adnew in Brooklyn, New York, with a straightforward conviction: the best software tools are often locked behind price tags that exclude the people who need them most. Robust Labs set out to change that.</p>
+                    <p>Robust Labs specializes in building AI-powered applications across productivity, education, and gaming — leveraging large language models and modern development practices to create software that is both intelligent and intuitive. The focus is on shipping real products that solve real problems, not chasing trends.</p>
+                    <p>As a registered LLC in the state of New York, Robust Labs operates with the discipline and accountability of a professional software company while maintaining the speed and creativity of an independent studio.</p>
+                </div>
             </section>
 
-            <section>
-                <h2>Reach Out</h2>
-                <p>hey@robustlabs.xyz</p>
+            <!-- Approach -->
+            <section id="approach">
+                <h2>Approach</h2>
+                <div class="approach-grid">
+                    <div class="approach-item">
+                        <h3>AI-First Development</h3>
+                        <p>Large language models are integrated at the core of every product — not as a gimmick, but as fundamental infrastructure that makes each application smarter and more useful over time.</p>
+                    </div>
+                    <div class="approach-item">
+                        <h3>Ship, Measure, Iterate</h3>
+                        <p>Robust Labs builds in focused cycles, releasing early to real users and refining based on actual usage patterns. Every feature earns its place through demonstrated value.</p>
+                    </div>
+                    <div class="approach-item">
+                        <h3>Accessible by Default</h3>
+                        <p>Cost should never be a barrier to quality software. The stack and operations are engineered to keep costs low, passing savings directly to users.</p>
+                    </div>
+                    <div class="approach-item">
+                        <h3>Privacy-Conscious</h3>
+                        <p>Robust Labs collects only what's necessary, is transparent about data use, and gives users control over their information. Trust is foundational to everything built here.</p>
+                    </div>
+                </div>
             </section>
 
-            <footer>&copy; 2026 Robust Labs LLC</footer>
+            <!-- Products -->
+            <section id="products">
+                <h2>Products</h2>
+                <div class="product-card">
+                    <img src="assets/cacha-logo.png" alt="Cacha app icon" />
+                    <div class="product-info">
+                        <h3><a href="https://cacha.app">Cacha</a></h3>
+                        <p>An AI-powered thought-capture app that automatically organizes your notes into tasks, events, and reflections. Write naturally — Cacha uses large language models to understand your intent and structure your thoughts, so you can capture ideas in seconds and find them organized when you need them.</p>
+                        <span class="product-status">Live — cacha.app</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team -->
+            <section id="team">
+                <h2>Leadership</h2>
+                <div class="team-card">
+                    <h3>Roba Adnew</h3>
+                    <p class="role">Founder &amp; CEO</p>
+                    <p>Roba brings over eight years of experience in product management, data science, and technology strategy. Before founding Robust Labs, he served as a Partner Product Manager at Meta, where he led commerce product strategy and grew a new native commerce platform from $0 to $600M in revenue within eight months. Prior to that, he spent four years as a Data Science Partner at Meta, leading measurement and analytics programs and collaborating with cross-functional teams on advertising and product development.</p>
+                    <p>Roba holds a B.S. in Mathematics and a B.A. in Economics from the University of Maryland, College Park. His background in quantitative analysis, product strategy, and go-to-market execution informs how Robust Labs approaches building software — data-driven, user-focused, and designed for real impact.</p>
+                    <p>He is also the cofounder of Agency Dante, a consultancy advising diverse- and women-led startups on brand and launch strategy, and a founding member of Elevate by Facebook, an employee-led program he helped grow from grassroots initiative to executive-sponsored program reaching millions of small business owners.</p>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact">
+                <h2>Get in Touch</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <h3>Email</h3>
+                        <a href="mailto:hey@robustlabs.xyz">hey@robustlabs.xyz</a>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Location</h3>
+                        <p>Brooklyn, New York</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Company</h3>
+                        <p>Robust Labs LLC<br />Registered in New York State</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-inner">
+                    <span class="footer-copy">&copy; 2026 Robust Labs LLC. All rights reserved.</span>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </footer>
         </div>
     </body>
 </html>
