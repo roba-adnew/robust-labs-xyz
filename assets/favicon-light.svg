@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Light tile matching the light logo treatment -->
+  <rect width="32" height="32" rx="7" fill="#E3E3E1"/>
+  <!-- RL with the light-theme echo: ink front, green + orange echo trailing down-right -->
+  <g font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="13.5" letter-spacing="-0.5" text-anchor="middle">
+    <text x="16" y="21" fill="#F7A521" transform="translate(1.5,1.1)">RL</text>
+    <text x="16" y="21" fill="#1CA45A" transform="translate(0.75,0.55)">RL</text>
+    <text x="16" y="21" fill="#1A1611">RL</text>
+  </g>
+</svg>
