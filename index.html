@@ -178,6 +178,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .brand, .brand .mark, .word .name { transition: none; }
+      .menu, .menu-nav a, .menu-foot > * { transition: opacity .12s ease; transform: none; }
     }
 
     /* ── Left rail (the docked home: nav + theme toggle) ──────────────────── */
@@ -387,41 +388,71 @@
 
     /* ── Mobile top bar (background behind the docked logo, shown < 900px) ── */
     .topbar {
-      display: none; position: fixed; top: 0; left: 0; right: 0; height: 58px; z-index: 45;
+      display: none; position: fixed; top: 0; left: 0; right: 0; height: 60px; z-index: 45;
       background: var(--rail-bg); border-bottom: 1px solid var(--bd);
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       opacity: 0; pointer-events: none; transition: opacity .4s ease;
     }
     body.docked .topbar { opacity: 1; }
 
-    /* ── Mobile menu button + dropdown (shown < 900px) ────────────────────── */
+    /* ── Mobile top-right controls: theme toggle + menu, level with the logo (< 900px) ── */
+    .top-controls {
+      display: none; position: fixed; top: .7rem; right: 1.15rem; z-index: 60;
+      align-items: center; gap: .5rem;
+    }
     .menu-btn {
-      display: none; position: fixed; top: 1.15rem; right: 1.15rem; z-index: 60;
-      align-items: center; gap: .5rem; padding: .5rem .85rem;
+      display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .85rem;
       background: var(--rail-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--bd-hi); border-radius: 100px; color: var(--t1); cursor: pointer;
+      transition: border-color .2s, background-color .45s ease;
     }
+    .menu-btn:hover { border-color: var(--ac-dim); }
     .menu-btn .mb-label { font-family: var(--fn-mono); font-size: .72rem; font-weight: 700; letter-spacing: .04em; }
     .menu-btn svg { color: var(--t2); }
+
+    /* dropdown menu — slides + fades out from the top-right corner (< 900px) */
     .menu {
-      display: none; position: fixed; top: 3.6rem; right: 1.15rem; z-index: 59;
-      flex-direction: column; min-width: 200px;
+      display: none; position: fixed; top: 3.7rem; right: 1.15rem; z-index: 59;
+      flex-direction: column; min-width: 214px;
       background: var(--rail-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--bd-hi); border-radius: 14px; overflow: hidden;
-      box-shadow: 0 12px 40px rgba(0,0,0,.42);
+      box-shadow: 0 18px 48px rgba(0,0,0,.46);
+      transform-origin: top right;
+      opacity: 0; visibility: hidden; transform: translateY(-12px) scale(.96);
+      transition: opacity .2s ease, transform .34s cubic-bezier(.16,1,.3,1), visibility 0s linear .34s;
     }
-    .menu.open { display: flex; }
-    .menu-nav { display: flex; flex-direction: column; padding: .4rem 0; }
-    .menu-nav a { font-family: var(--fn-mono); font-size: .82rem; color: var(--t2); padding: .55rem 1.1rem; transition: color .18s, background-color .18s; }
+    .menu.open {
+      opacity: 1; visibility: visible; transform: none;
+      transition: opacity .2s ease, transform .34s cubic-bezier(.16,1,.3,1), visibility 0s;
+    }
+    .menu-nav { display: flex; flex-direction: column; padding: .45rem 0; }
+    .menu-nav a {
+      --d: 0s;
+      font-family: var(--fn-mono); font-size: .82rem; color: var(--t2); padding: .6rem 1.15rem;
+      opacity: 0; transform: translateY(-5px);
+      transition: color .18s ease, opacity .26s ease var(--d), transform .3s cubic-bezier(.16,1,.3,1) var(--d);
+    }
     .menu-nav a:hover, .menu-nav a.active { color: var(--ac); }
-    .menu-foot { display: flex; flex-direction: column; gap: .75rem; padding: .85rem 1.1rem; border-top: 1px solid var(--bd); }
-    .menu-legal { display: flex; flex-direction: column; gap: .35rem; }
+    .menu-foot { display: flex; flex-direction: column; gap: .8rem; padding: .9rem 1.15rem 1rem; border-top: 1px solid var(--bd); }
+    .menu-foot > * {
+      --d: .1s;
+      opacity: 0; transform: translateY(-5px);
+      transition: opacity .26s ease var(--d), transform .3s cubic-bezier(.16,1,.3,1) var(--d);
+    }
+    .menu-legal { display: flex; flex-direction: column; gap: .4rem; }
     .menu-legal a { font-family: var(--fn-mono); font-size: .76rem; color: var(--t2); transition: color .18s; }
     .menu-legal a:hover { color: var(--ac); }
-    .menu-bottom { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
     .menu-year { font-family: var(--fn-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--t3); }
-    .menu-cta { font-family: var(--fn-mono); font-size: .8rem; font-weight: 700; color: var(--ac); display: inline-flex; align-items: center; gap: .4rem; }
+    .menu-cta { font-family: var(--fn-mono); font-size: .82rem; font-weight: 700; color: var(--ac); display: inline-flex; align-items: center; gap: .45rem; }
     .menu-cta img { width: 15px; height: 15px; border-radius: 4px; object-fit: contain; }
+
+    /* staggered reveal of the menu's contents as the panel slides out */
+    .menu.open .menu-nav a, .menu.open .menu-foot > * { opacity: 1; transform: none; }
+    .menu-nav a:nth-child(2) { --d: .05s; }
+    .menu-nav a:nth-child(3) { --d: .1s; }
+    .menu-foot > *:nth-child(1) { --d: .13s; }
+    .menu-foot > *:nth-child(2) { --d: .16s; }
+    .menu-foot > *:nth-child(3) { --d: .19s; }
 
     /* ════════════════════════════════════════════════════════════════════ *
      *  MOBILE  ( < 900px ) — collapse rail, document scroll, dock to top-left *
@@ -429,21 +460,27 @@
     @media (max-width: 899px) {
       :root, [data-theme="dark"], [data-theme="light"] { --rail: 0px; }
       html, body { height: auto; }
-      html { scroll-snap-type: y proximity; scroll-padding-top: 64px; }
+      /* Document scroll snaps section-to-section, same "lock into place" as the desktop pane.
+         scroll-padding-top alone clears the 60px top bar — sections carry no scroll-margin so
+         they lock flush under it (no double offset). */
+      html { scroll-snap-type: y proximity; scroll-padding-top: 70px; }
       body { overflow: visible; }
       .rail { display: none; }
       .scroller { position: static; inset: auto; overflow: visible; }
-      .menu-btn { display: inline-flex; }
+      .top-controls { display: inline-flex; }
+      .top-controls .theme-toggle { width: 40px; height: 40px; }
+      /* rendered (not display:none) so the open/close slide can animate; hidden via opacity+visibility */
+      .menu { display: flex; }
       .topbar { display: block; }
 
       .brand { left: 50%; top: 38vh; }
       .brand .mark { font-size: clamp(64px, 19vw, 116px); }
-      body.docked .brand { top: 1.05rem; left: 1.15rem; gap: 0; }
+      body.docked .brand { top: 1.2rem; left: 1.15rem; gap: 0; }
       body.docked .brand .mark { font-size: 26px; }
       body.docked .brand .word { opacity: 0; transform: translateY(-6px); pointer-events: none; }
 
       .content { padding: 0 1.5rem; }
-      section { padding: 4rem 0; scroll-margin-top: 64px; }
+      section { padding: 3.5rem 0; scroll-margin-top: 0; }
       .approach-grid { grid-template-columns: 1fr; }
       .prod-card { grid-template-columns: 1fr; gap: 1.4rem; padding: 1.75rem; }
       .contact-grid { grid-template-columns: 1fr; }
@@ -453,6 +490,11 @@
     }
     @media (max-width: 480px) {
       .hero-btns { width: 100%; max-width: 280px; }
+    }
+    @media (max-width: 360px) {
+      .top-controls { right: 1rem; gap: .4rem; }
+      .menu-btn { padding: .55rem .7rem; }
+      .content { padding: 0 1.25rem; }
     }
   </style>
 </head>
@@ -508,15 +550,31 @@
   <!-- ── Mobile top bar: opaque backing behind the docked logo (< 900px) ── -->
   <div class="topbar" aria-hidden="true"></div>
 
-  <!-- ── Mobile menu (rail collapses below 900px) ───────────────────────── -->
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
-    <span class="mb-label">Menu</span>
-    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-      <line x1="1" y1="1.5" x2="13" y2="1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="1" y1="6" x2="13" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="1" y1="10.5" x2="13" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </button>
+  <!-- ── Mobile top-right controls: theme toggle + menu (rail collapses < 900px) ── -->
+  <div class="top-controls" id="topControls">
+    <button class="theme-toggle" type="button" aria-label="Switch theme">
+      <svg class="tt-icon tt-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/>
+        <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/>
+          <line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/>
+          <line x1="5.2" y1="5.2" x2="6.9" y2="6.9"/><line x1="17.1" y1="17.1" x2="18.8" y2="18.8"/>
+          <line x1="18.8" y1="5.2" x2="17.1" y2="6.9"/><line x1="6.9" y1="17.1" x2="5.2" y2="18.8"/>
+        </g>
+      </svg>
+      <svg class="tt-icon tt-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span class="mb-label">Menu</span>
+      <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+        <line x1="1" y1="1.5" x2="13" y2="1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="1" y1="6" x2="13" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="1" y1="10.5" x2="13" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
   <div class="menu" id="menu">
     <nav class="menu-nav">
       <a href="#about">About</a>
@@ -529,23 +587,7 @@
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms of Service</a>
       </div>
-      <div class="menu-bottom">
-        <span class="menu-year">© 2026 Robust Labs</span>
-        <button class="theme-toggle" type="button" aria-label="Switch theme">
-          <svg class="tt-icon tt-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/>
-            <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-              <line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/>
-              <line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/>
-              <line x1="5.2" y1="5.2" x2="6.9" y2="6.9"/><line x1="17.1" y1="17.1" x2="18.8" y2="18.8"/>
-              <line x1="18.8" y1="5.2" x2="17.1" y2="6.9"/><line x1="6.9" y1="17.1" x2="5.2" y2="18.8"/>
-            </g>
-          </svg>
-          <svg class="tt-icon tt-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
+      <span class="menu-year">© 2026 Robust Labs</span>
     </div>
   </div>
 
