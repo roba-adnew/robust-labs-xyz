@@ -178,7 +178,9 @@
 
     @media (prefers-reduced-motion: reduce) {
       .brand, .brand .mark, .word .name { transition: none; }
-      .menu, .menu-nav a, .menu-foot > * { transition: opacity .12s ease; transform: none; }
+      .menu-btn { transition: border-color .2s; }
+      .menu { transition: opacity .12s ease; clip-path: none; }
+      .top-controls.is-open .menu { transition: opacity .12s ease; clip-path: none; }
     }
 
     /* ── Left rail (the docked home: nav + theme toggle) ──────────────────── */
@@ -397,48 +399,50 @@
 
     /* ── Mobile top-right controls: theme toggle + menu, level with the logo (< 900px) ── */
     .top-controls {
+      --menu-w: 216px;
       display: none; position: fixed; top: .7rem; right: 1.15rem; z-index: 60;
       align-items: center; gap: .5rem;
     }
+    .menu-shell { position: relative; }   /* anchors the panel directly under the (widening) button */
     .menu-btn {
-      display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .85rem;
+      position: relative; z-index: 2;     /* sits above the panel so it unfurls from underneath */
+      display: inline-flex; align-items: center; justify-content: space-between; gap: .5rem;
+      width: 88px; padding: .55rem .85rem; overflow: hidden; white-space: nowrap;
       background: var(--rail-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--bd-hi); border-radius: 100px; color: var(--t1); cursor: pointer;
-      transition: border-color .2s, background-color .45s ease;
+      transition: width .26s cubic-bezier(.16,1,.3,1), border-radius .24s ease, border-color .2s, background-color .45s ease;
     }
     .menu-btn:hover { border-color: var(--ac-dim); }
     .menu-btn .mb-label { font-family: var(--fn-mono); font-size: .72rem; font-weight: 700; letter-spacing: .04em; }
-    .menu-btn svg { color: var(--t2); }
+    .menu-btn svg { color: var(--t2); flex-shrink: 0; }
 
-    /* dropdown menu — slides + fades out from the top-right corner (< 900px) */
-    .menu {
-      display: none; position: fixed; top: 3.7rem; right: 1.15rem; z-index: 59;
-      flex-direction: column; min-width: 214px;
-      background: var(--rail-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-      border: 1px solid var(--bd-hi); border-radius: 14px; overflow: hidden;
-      box-shadow: 0 18px 48px rgba(0,0,0,.46);
-      transform-origin: top right;
-      opacity: 0; visibility: hidden; transform: translateY(-12px) scale(.96);
-      transition: opacity .2s ease, transform .34s cubic-bezier(.16,1,.3,1), visibility 0s linear .34s;
+    /* PHASE 1 — the button widens out to the full menu width and squares its lower corners */
+    .top-controls.is-open .menu-btn {
+      width: var(--menu-w); border-color: var(--ac-dim);
+      border-bottom-left-radius: 9px; border-bottom-right-radius: 9px;
     }
-    .menu.open {
-      opacity: 1; visibility: visible; transform: none;
-      transition: opacity .2s ease, transform .34s cubic-bezier(.16,1,.3,1), visibility 0s;
+
+    /* PHASE 2 — the panel unfurls downward from just beneath the now-wide button */
+    .menu {
+      position: absolute; top: calc(100% + 6px); right: 0; z-index: 1;
+      display: flex; flex-direction: column; width: var(--menu-w);
+      background: var(--rail-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--bd-hi); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 18px 48px rgba(0,0,0,.46);
+      opacity: 0; visibility: hidden;
+      clip-path: inset(0 0 100% 0 round 12px);                 /* collapsed to its top edge */
+      transition: opacity .16s ease, clip-path .3s cubic-bezier(.16,1,.3,1), visibility 0s linear .34s;
+    }
+    .top-controls.is-open .menu {
+      opacity: 1; visibility: visible;
+      clip-path: inset(0 0 0 0 round 12px);                    /* revealed top→bottom = slides down */
+      /* delayed so the button finishes widening before the panel drops */
+      transition: opacity .16s ease .16s, clip-path .34s cubic-bezier(.16,1,.3,1) .16s, visibility 0s;
     }
     .menu-nav { display: flex; flex-direction: column; padding: .45rem 0; }
-    .menu-nav a {
-      --d: 0s;
-      font-family: var(--fn-mono); font-size: .82rem; color: var(--t2); padding: .6rem 1.15rem;
-      opacity: 0; transform: translateY(-5px);
-      transition: color .18s ease, opacity .26s ease var(--d), transform .3s cubic-bezier(.16,1,.3,1) var(--d);
-    }
+    .menu-nav a { font-family: var(--fn-mono); font-size: .82rem; color: var(--t2); padding: .6rem 1.15rem; transition: color .18s ease; }
     .menu-nav a:hover, .menu-nav a.active { color: var(--ac); }
     .menu-foot { display: flex; flex-direction: column; gap: .8rem; padding: .9rem 1.15rem 1rem; border-top: 1px solid var(--bd); }
-    .menu-foot > * {
-      --d: .1s;
-      opacity: 0; transform: translateY(-5px);
-      transition: opacity .26s ease var(--d), transform .3s cubic-bezier(.16,1,.3,1) var(--d);
-    }
     .menu-legal { display: flex; flex-direction: column; gap: .4rem; }
     .menu-legal a { font-family: var(--fn-mono); font-size: .76rem; color: var(--t2); transition: color .18s; }
     .menu-legal a:hover { color: var(--ac); }
@@ -446,31 +450,22 @@
     .menu-cta { font-family: var(--fn-mono); font-size: .82rem; font-weight: 700; color: var(--ac); display: inline-flex; align-items: center; gap: .45rem; }
     .menu-cta img { width: 15px; height: 15px; border-radius: 4px; object-fit: contain; }
 
-    /* staggered reveal of the menu's contents as the panel slides out */
-    .menu.open .menu-nav a, .menu.open .menu-foot > * { opacity: 1; transform: none; }
-    .menu-nav a:nth-child(2) { --d: .05s; }
-    .menu-nav a:nth-child(3) { --d: .1s; }
-    .menu-foot > *:nth-child(1) { --d: .13s; }
-    .menu-foot > *:nth-child(2) { --d: .16s; }
-    .menu-foot > *:nth-child(3) { --d: .19s; }
-
     /* ════════════════════════════════════════════════════════════════════ *
      *  MOBILE  ( < 900px ) — collapse rail, document scroll, dock to top-left *
      * ════════════════════════════════════════════════════════════════════ */
     @media (max-width: 899px) {
       :root, [data-theme="dark"], [data-theme="light"] { --rail: 0px; }
       html, body { height: auto; }
-      /* Document scroll snaps section-to-section, same "lock into place" as the desktop pane.
-         scroll-padding-top alone clears the 60px top bar — sections carry no scroll-margin so
-         they lock flush under it (no double offset). */
-      html { scroll-snap-type: y proximity; scroll-padding-top: 70px; }
+      /* Document scroll locks section-to-section. mandatory (not proximity) because a finger
+         flick carries too much momentum for proximity to catch — short sections + the hero lock
+         firmly, while the tall About (≈1.9× the viewport) stays free to scroll since a snap area
+         larger than the viewport is never trapped. scroll-padding-top clears the 60px top bar. */
+      html { scroll-snap-type: y mandatory; scroll-padding-top: 70px; }
       body { overflow: visible; }
       .rail { display: none; }
       .scroller { position: static; inset: auto; overflow: visible; }
       .top-controls { display: inline-flex; }
       .top-controls .theme-toggle { width: 40px; height: 40px; }
-      /* rendered (not display:none) so the open/close slide can animate; hidden via opacity+visibility */
-      .menu { display: flex; }
       .topbar { display: block; }
 
       .brand { left: 50%; top: 38vh; }
@@ -485,7 +480,9 @@
       .prod-card { grid-template-columns: 1fr; gap: 1.4rem; padding: 1.75rem; }
       .contact-grid { grid-template-columns: 1fr; }
       .footer-inner { padding: 0 1.5rem; }
-      .hero { min-height: 100vh; padding-bottom: 6vh; }
+      /* svh (small viewport) keeps the hero == the visible area regardless of the address bar,
+         so mandatory snap doesn't fight the toolbar show/hide. 100vh is the pre-svh fallback. */
+      .hero { min-height: 100vh; min-height: 100svh; padding-bottom: 6vh; }
       .hero-hl { font-size: clamp(2rem, 8vw, 2.5rem); }
     }
     @media (max-width: 480px) {
@@ -566,28 +563,30 @@
         <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
       </svg>
     </button>
-    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
-      <span class="mb-label">Menu</span>
-      <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-        <line x1="1" y1="1.5" x2="13" y2="1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="1" y1="6" x2="13" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="1" y1="10.5" x2="13" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-  </div>
-  <div class="menu" id="menu">
-    <nav class="menu-nav">
-      <a href="#about">About</a>
-      <a href="#products">Products</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div class="menu-foot">
-      <a class="menu-cta" href="https://cacha.app"><img src="assets/cacha-logo.svg" alt="" />Try Cacha →</a>
-      <div class="menu-legal">
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
+    <div class="menu-shell">
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span class="mb-label">Menu</span>
+        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+          <line x1="1" y1="1.5" x2="13" y2="1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="6" x2="13" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="10.5" x2="13" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="menu" id="menu">
+        <nav class="menu-nav">
+          <a href="#about">About</a>
+          <a href="#products">Products</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="menu-foot">
+          <a class="menu-cta" href="https://cacha.app"><img src="assets/cacha-logo.svg" alt="" />Try Cacha →</a>
+          <div class="menu-legal">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+          </div>
+          <span class="menu-year">© 2026 Robust Labs</span>
+        </div>
       </div>
-      <span class="menu-year">© 2026 Robust Labs</span>
     </div>
   </div>
 
@@ -686,10 +685,11 @@
   </main>
 
   <script>
-    var mqDesktop = window.matchMedia('(min-width: 900px)');
-    var scroller  = document.getElementById('scroller');
-    var menu      = document.getElementById('menu');
-    var menuBtn   = document.getElementById('menuBtn');
+    var mqDesktop   = window.matchMedia('(min-width: 900px)');
+    var scroller    = document.getElementById('scroller');
+    var topControls = document.getElementById('topControls');
+    var menu        = document.getElementById('menu');
+    var menuBtn     = document.getElementById('menuBtn');
 
     var brand       = document.getElementById('brand');
     var brandAnchor = document.getElementById('brandAnchor');
@@ -757,7 +757,7 @@
     window.addEventListener('scroll', function () { if (isAtBottom()) setActiveNav('contact'); }, { passive: true });
 
     // Smooth in-page scroll that works inside the inner pane
-    function closeMenu() { if (menu) { menu.classList.remove('open'); menuBtn && menuBtn.setAttribute('aria-expanded', 'false'); } }
+    function closeMenu() { if (topControls) { topControls.classList.remove('is-open'); menuBtn && menuBtn.setAttribute('aria-expanded', 'false'); } }
     function smoothTo(id) { var t = document.getElementById(id); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     document.querySelectorAll('.rail-nav a[href^="#"], .menu-nav a[href^="#"], .hero-btns a[href^="#"], .hero-chev').forEach(function (a) {
       a.addEventListener('click', function (e) {
@@ -786,14 +786,16 @@
       btn.addEventListener('click', toggleTheme);
     });
 
-    // Mobile menu
+    // Mobile menu — the button widens, then the panel unfurls (state lives on .top-controls)
     menuBtn && menuBtn.addEventListener('click', function (e) {
       e.stopPropagation();
-      var open = menu.classList.toggle('open');
+      var open = topControls.classList.toggle('is-open');
       menuBtn.setAttribute('aria-expanded', String(open));
     });
     document.addEventListener('click', function (e) {
-      if (menu && menuBtn && !menu.contains(e.target) && !menuBtn.contains(e.target)) closeMenu();
+      // the theme toggle, button and panel all live inside .top-controls, so any click
+      // outside that cluster dismisses the menu
+      if (topControls && !topControls.contains(e.target)) closeMenu();
     });
   </script>
 </body>
