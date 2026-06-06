@@ -1,226 +1,306 @@
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Terms of Service — Robust Labs</title>
-        <meta name="description" content="Terms of Service for Robust Labs LLC products and services." />
-        <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-        <style>
-            @font-face {
-                font-family: "HK Grotesk";
-                src: url("assets/fonts/hkgrotesk_regular.woff") format("woff");
-                font-weight: 400;
-                font-style: normal;
-            }
-            @font-face {
-                font-family: "HK Grotesk";
-                src: url("assets/fonts/hkgrotesk_bold.woff") format("woff");
-                font-weight: 700;
-                font-style: normal;
-            }
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            html { scroll-behavior: smooth; }
-            body {
-                background: #1a1a1f;
-                color: #ebebeb;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-                min-height: 100vh;
-                line-height: 1.6;
-            }
-            /* ── Nav ─────────────────────────────────────── */
-            nav {
-                position: fixed; top: 0; left: 0; right: 0;
-                background: rgba(26,26,31,0.95);
-                backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-                border-bottom: 1px solid rgba(255,255,255,0.06);
-                z-index: 100; padding: 0 2rem;
-            }
-            .nav-inner {
-                max-width: 900px; margin: 0 auto;
-                display: flex; align-items: center; height: 60px;
-            }
-            .nav-brand {
-                display: flex; align-items: center; gap: 0.5rem;
-                text-decoration: none; color: #e0d4f5; font-weight: 600; font-size: 0.95rem;
-            }
-            .nav-brand img { width: 28px; height: 28px; }
-            /* ── Content ─────────────────────────────────── */
-            .container {
-                max-width: 700px; margin: 0 auto; padding: 7rem 2rem 4rem;
-            }
-            h1 {
-                font-size: 2rem; font-weight: 700; color: #e0d4f5; margin-bottom: 0.5rem;
-            }
-            .last-updated {
-                font-size: 0.85rem; color: #888; margin-bottom: 3rem;
-            }
-            h2 {
-                font-size: 1.15rem; font-weight: 600; color: #ebebeb;
-                margin-top: 2.5rem; margin-bottom: 1rem;
-                text-transform: none; letter-spacing: 0;
-            }
-            h3 {
-                font-size: 1rem; font-weight: 600; color: #c0c0c0;
-                margin-top: 1.5rem; margin-bottom: 0.5rem;
-            }
-            p {
-                font-size: 0.93rem; line-height: 1.8; color: #c0c0c0; margin-bottom: 1rem;
-            }
-            ul {
-                list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem;
-            }
-            li {
-                font-size: 0.93rem; line-height: 1.8; color: #c0c0c0; margin-bottom: 0.25rem;
-            }
-            li::marker { color: #a0a0a0; }
-            a { color: #e0d4f5; }
-            a:hover { text-decoration: underline; }
-            /* ── Footer ──────────────────────────────────── */
-            footer {
-                max-width: 700px; margin: 0 auto; padding: 2rem;
-                border-top: 1px solid rgba(255,255,255,0.06);
-            }
-            .footer-inner {
-                display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-            }
-            .footer-copy { font-size: 0.8rem; color: #888; }
-            .footer-links { display: flex; gap: 1.5rem; list-style: none; }
-            .footer-links a { font-size: 0.8rem; color: #888; text-decoration: none; }
-            .footer-links a:hover { color: #ebebeb; }
-        </style>
-    </head>
-    <body>
-        <nav>
-            <div class="nav-inner">
-                <a href="index.html" class="nav-brand">
-                    <img src="assets/robust-labs-logo.svg" alt="Robust Labs" />
-                    Robust Labs
-                </a>
-            </div>
-        </nav>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Robust Labs</title>
+  <meta name="description" content="Terms of Service for Robust Labs LLC products and services." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
-        <div class="container">
-            <h1>Terms of Service</h1>
-            <p class="last-updated">Last updated: March 26, 2026</p>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('rl-theme');
+        var t = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
 
-            <h2>1. Acceptance of Terms</h2>
-            <p>By accessing or using any product or service provided by Robust Labs LLC ("Robust Labs," "we," "our," or "us"), including our website and applications (collectively, "Services"), you agree to be bound by these Terms of Service. If you do not agree, please do not use our Services.</p>
-            <p>You must be at least 13 years old to use our Services. If you are under 18, please ensure a parent or guardian consents to your use.</p>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=Space+Grotesk:wght@400;500;700&family=Spline+Sans+Mono:wght@500;700&display=swap" rel="stylesheet" />
 
-            <h2>2. Description of Services</h2>
-            <p>Robust Labs builds and operates AI-powered software applications across productivity, education, and gaming. Our Services include web applications, mobile applications, and related features such as:</p>
-            <ul>
-                <li>AI-powered content classification and organization</li>
-                <li>Task and event management</li>
-                <li>Third-party integrations (e.g., calendar sync)</li>
-                <li>Personal productivity tools</li>
-            </ul>
-            <p>We may add, modify, or discontinue features at any time. We will make reasonable efforts to notify users of significant changes.</p>
+  <style>
+    /* ── Tokens (shared with the landing page) ─────────────────────────── */
+    :root, [data-theme="dark"] {
+      color-scheme: dark;
+      --orange:#F7A521; --yellow:#F4D21C; --green:#1CA45A; --green-neon:#34E37B; --snug:.024em;
+      --bg:#0E0B08; --surf:#1C140F; --bd:rgba(239,231,221,0.10); --bd-hi:rgba(239,231,221,0.18);
+      --t1:#EFE7DD; --t2:#9D9081; --t3:#635646;
+      --ac:#F7A521; --ac-glow:rgba(247,165,33,0.10); --ac-dim:rgba(247,165,33,0.42); --on-ac:#16110B;
+      --nav-bg:rgba(14,11,8,0.82);
+      --fn:"Space Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+      --fn-display:"Archivo Black","Space Grotesk",sans-serif;
+      --fn-mark:"Bungee","Archivo Black",sans-serif;
+      --fn-mono:"Spline Sans Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+      --r:10px;
+    }
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg:#D6D6D5; --surf:#E3E3E1; --bd:rgba(26,22,17,0.12); --bd-hi:rgba(26,22,17,0.24);
+      --t1:#1A1611; --t2:#5C5347; --t3:#8A8073;
+      --ac:#16894A; --ac-glow:rgba(28,164,90,0.12); --ac-dim:rgba(28,164,90,0.42); --on-ac:#FFFFFF;
+      --nav-bg:rgba(214,214,213,0.82);
+    }
 
-            <h2>3. User Accounts</h2>
-            <h3>Account Creation</h3>
-            <ul>
-                <li>You must provide a valid email address</li>
-                <li>You must verify your email before accessing the full service</li>
-                <li>You are responsible for maintaining the security of your account credentials</li>
-                <li>One person per account — account sharing is not permitted</li>
-            </ul>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--t1);
+      font-family: var(--fn); line-height: 1.65; min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color .45s ease, color .45s ease;
+    }
 
-            <h3>Account Security</h3>
-            <p>You are responsible for all activity under your account. If you become aware of unauthorized access, notify us immediately at <a href="mailto:hey@robustlabs.xyz">hey@robustlabs.xyz</a>.</p>
+    /* ── RL echo mark + wordmark (brand) ───────────────────────────────── */
+    .echo { position: relative; display: inline-block; line-height: .86; }
+    .echo .lyr { position: absolute; left: 0; top: 0; }
+    .echo .ab { font-family: var(--fn-mark); letter-spacing: 0;
+      -webkit-text-fill-color: transparent; -webkit-text-stroke: 1.6px currentColor; }
+    .echo .base { display: inline-block; }
+    .echo .e3 { display: none; }
+    .nav-mark { font-size: 27px; }
+    [data-theme="light"] .echo .base { color: #1A1611; }
+    [data-theme="light"] .echo .e1 { display:block; left: var(--snug); top: calc(var(--snug)*.72); color: var(--green); mix-blend-mode: multiply; }
+    [data-theme="light"] .echo .e2 { display:block; left: calc(var(--snug)*2); top: calc(var(--snug)*1.5); color: var(--orange); mix-blend-mode: multiply; }
+    [data-theme="light"] .echo .e3 { display:none; }
+    [data-theme="dark"] .echo .e3 { display:block; left:0; top:0; color:#F4EEE3; }
+    [data-theme="dark"] .echo .e2 { display:block; left: var(--snug); top: calc(var(--snug)*.72); color: var(--yellow); mix-blend-mode: screen; }
+    [data-theme="dark"] .echo .e1 { display:none; }
+    [data-theme="dark"] .echo .base { color: var(--green-neon); mix-blend-mode: screen; transform: translate(calc(var(--snug)*2), calc(var(--snug)*1.44)); }
+    .nav-name { font-family: var(--fn-display); font-size: .92rem; letter-spacing: .02em; color: var(--t1); }
+    .nav-name b { font-weight: inherit; }
+    [data-theme="light"] .nav-name b { color: var(--green); }
+    [data-theme="dark"]  .nav-name b { color: var(--orange); }
 
-            <h2>4. User Content &amp; Ownership</h2>
-            <h3>You Own Your Content</h3>
-            <p>All content you create within our Services — notes, tasks, events, and any other data — belongs to you.</p>
+    /* ── Theme toggle + sliding wipe (View Transitions API) ────────────── */
+    .theme-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 100px;
+      background: var(--surf); color: var(--t1); border: 1px solid var(--bd-hi);
+      cursor: pointer; flex-shrink: 0;
+      transition: opacity .2s, border-color .2s, background-color .45s ease;
+    }
+    .theme-toggle:hover { opacity: .85; border-color: var(--ac-dim); }
+    .theme-toggle .tt-icon { width: 16px; height: 16px; }
+    [data-theme="dark"]  .theme-toggle .tt-moon { display: none; }
+    [data-theme="light"] .theme-toggle .tt-sun  { display: none; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 999; }
+    html[data-theme-direction="ltr"]::view-transition-new(root) { animation: wipe-ltr .4s ease-in-out; }
+    html[data-theme-direction="rtl"]::view-transition-new(root) { animation: wipe-rtl .4s ease-in-out; }
+    @keyframes wipe-ltr { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+    @keyframes wipe-rtl { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
 
-            <h3>License to Operate</h3>
-            <p>By using our Services, you grant Robust Labs a limited license to:</p>
-            <ul>
-                <li>Store your content on our servers</li>
-                <li>Process your content with AI to deliver features (e.g., classification, extraction)</li>
-                <li>Sync your content with third-party services you authorize</li>
-                <li>Back up your content to prevent data loss</li>
-            </ul>
-            <p>This license exists solely to provide the Services. We will never sell your content or use it for purposes other than operating the Services.</p>
+    /* ── Sticky nav ────────────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100; padding: 0 2rem;
+      background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--bd);
+    }
+    .nav-inner {
+      max-width: 760px; margin: 0 auto; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
 
-            <h3>Your Responsibilities</h3>
-            <ul>
-                <li>Do not upload content you do not have the right to share</li>
-                <li>Do not upload copyrighted material without proper authorization</li>
-                <li>You are responsible for maintaining backups of important data</li>
-            </ul>
+    /* ── Content ───────────────────────────────────────────────────────── */
+    .container { max-width: 720px; margin: 0 auto; padding: 3.5rem 2rem 4rem; }
+    h1 { font-size: 2rem; font-weight: 700; color: var(--t1); letter-spacing: -.025em; margin-bottom: .5rem; }
+    .last-updated { font-family: var(--fn-mono); font-size: .78rem; letter-spacing: .04em; color: var(--t3); margin-bottom: 3rem; }
+    h2 { font-size: 1.15rem; font-weight: 700; color: var(--t1); letter-spacing: -.01em; margin-top: 2.6rem; margin-bottom: 1rem; }
+    h3 { font-size: 1rem; font-weight: 700; color: var(--t1); margin-top: 1.5rem; margin-bottom: .5rem; }
+    p { font-size: .93rem; line-height: 1.85; color: var(--t2); margin-bottom: 1rem; }
+    ul { list-style: disc; padding-left: 1.4rem; margin-bottom: 1rem; }
+    li { font-size: .93rem; line-height: 1.85; color: var(--t2); margin-bottom: .3rem; }
+    li::marker { color: var(--ac-dim); }
+    strong { color: var(--t1); font-weight: 700; }
+    a { color: var(--ac); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-            <h2>5. Acceptable Use</h2>
-            <p>You agree not to:</p>
-            <ul>
-                <li>Use our Services for any illegal purpose</li>
-                <li>Upload malicious code, viruses, or malware</li>
-                <li>Attempt to compromise the security of our systems</li>
-                <li>Scrape, copy, or extract data using automated tools</li>
-                <li>Impersonate others or misrepresent your identity</li>
-                <li>Use our Services to send unsolicited communications</li>
-                <li>Interfere with the operation of our Services</li>
-            </ul>
-            <p>Violation of these terms may result in suspension or termination of your account.</p>
+    /* ── Footer ────────────────────────────────────────────────────────── */
+    footer { max-width: 720px; margin: 0 auto; padding: 2rem; border-top: 1px solid var(--bd); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-family: var(--fn-mono); font-size: .72rem; color: var(--t3); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-family: var(--fn-mono); font-size: .72rem; color: var(--t3); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--t2); }
 
-            <h2>6. AI &amp; Data Processing</h2>
-            <p>Our products use AI and large language model (LLM) technology to provide intelligent features. When you use these features, your content is processed by our AI providers solely to deliver the requested functionality.</p>
-            <p>We do not use your content to train AI models. We do not share your content with third parties beyond what is required to provide the Services.</p>
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .container { padding: 2.5rem 1.25rem 3rem; }
+      footer { padding: 2rem 1.25rem; }
+      h1 { font-size: 1.65rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand" aria-label="Robust Labs home">
+        <span class="echo nav-mark" aria-hidden="true">
+          <span class="ab base">RL</span><span class="ab lyr e1">RL</span><span class="ab lyr e2">RL</span><span class="ab lyr e3">RL</span>
+        </span>
+        <span class="nav-name">ROBUST<b>·</b>LABS</span>
+      </a>
+      <button class="theme-toggle" type="button" aria-label="Switch theme">
+        <svg class="tt-icon tt-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/>
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/>
+            <line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/>
+            <line x1="5.2" y1="5.2" x2="6.9" y2="6.9"/><line x1="17.1" y1="17.1" x2="18.8" y2="18.8"/>
+            <line x1="18.8" y1="5.2" x2="17.1" y2="6.9"/><line x1="6.9" y1="17.1" x2="5.2" y2="18.8"/>
+          </g>
+        </svg>
+        <svg class="tt-icon tt-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
 
-            <h2>7. Service Availability</h2>
-            <p>Our Services are provided on an "as is" basis. While we strive for reliability, we cannot guarantee:</p>
-            <ul>
-                <li>100% uptime or uninterrupted availability</li>
-                <li>Absence of bugs or errors</li>
-                <li>That the Services will meet every user's specific needs</li>
-            </ul>
-            <p>We will provide notice for scheduled maintenance when possible and work to resolve unexpected outages promptly.</p>
+  <div class="container">
+    <h1>Terms of Service</h1>
+    <p class="last-updated">Last updated: March 26, 2026</p>
 
-            <h2>8. Termination</h2>
-            <h3>By You</h3>
-            <p>You may delete your account at any time through the account settings of the relevant product. Upon deletion, all your data will be permanently removed within 30 days.</p>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using any product or service provided by Robust Labs LLC ("Robust Labs," "we," "our," or "us"), including our website and applications (collectively, "Services"), you agree to be bound by these Terms of Service. If you do not agree, please do not use our Services.</p>
+    <p>You must be at least 13 years old to use our Services. If you are under 18, please ensure a parent or guardian consents to your use.</p>
 
-            <h3>By Us</h3>
-            <p>We reserve the right to suspend or terminate accounts that violate these Terms. We will make reasonable efforts to provide notice before taking action, except in cases of serious or immediate violations.</p>
+    <h2>2. Description of Services</h2>
+    <p>Robust Labs builds and operates AI-powered software applications across productivity, education, and gaming. Our Services include web applications, mobile applications, and related features such as:</p>
+    <ul>
+      <li>AI-powered content classification and organization</li>
+      <li>Task and event management</li>
+      <li>Third-party integrations (e.g., calendar sync)</li>
+      <li>Personal productivity tools</li>
+    </ul>
+    <p>We may add, modify, or discontinue features at any time. We will make reasonable efforts to notify users of significant changes.</p>
 
-            <h2>9. Limitation of Liability</h2>
-            <p>To the maximum extent permitted by law, Robust Labs LLC is not liable for:</p>
-            <ul>
-                <li>Loss of data (though we take reasonable precautions to prevent this)</li>
-                <li>Indirect, incidental, or consequential damages</li>
-                <li>Lost profits or business opportunities</li>
-                <li>Service interruptions</li>
-                <li>Actions of third-party service providers</li>
-            </ul>
-            <p>Our total liability is limited to the greater of (A) $100, or (B) amounts you have paid to Robust Labs in the preceding 12 months.</p>
-            <p>Some jurisdictions do not allow limitation of liability, so these limitations may not apply to you.</p>
+    <h2>3. User Accounts</h2>
+    <h3>Account Creation</h3>
+    <ul>
+      <li>You must provide a valid email address</li>
+      <li>You must verify your email before accessing the full service</li>
+      <li>You are responsible for maintaining the security of your account credentials</li>
+      <li>One person per account — account sharing is not permitted</li>
+    </ul>
 
-            <h2>10. Dispute Resolution</h2>
-            <p>If you have an issue, please contact us at <a href="mailto:hey@robustlabs.xyz">hey@robustlabs.xyz</a> first. We will make a good faith effort to resolve disputes informally.</p>
-            <p>These Terms are governed by the laws of the State of New York, United States. Any disputes not resolved informally will be subject to the jurisdiction of the courts in the State of New York.</p>
+    <h3>Account Security</h3>
+    <p>You are responsible for all activity under your account. If you become aware of unauthorized access, notify us immediately at <a href="mailto:hey@robustlabs.xyz">hey@robustlabs.xyz</a>.</p>
 
-            <h2>11. Changes to These Terms</h2>
-            <p>We may update these Terms from time to time. We will notify users by email of significant changes. Changes take effect 30 days after notification. Continued use of our Services after that period constitutes acceptance of the updated Terms.</p>
-            <p>If you do not agree with changes, you may delete your account before they take effect.</p>
+    <h2>4. User Content &amp; Ownership</h2>
+    <h3>You Own Your Content</h3>
+    <p>All content you create within our Services — notes, tasks, events, and any other data — belongs to you.</p>
 
-            <h2>12. Contact</h2>
-            <p>Questions about these Terms? Contact us:</p>
-            <p>
-                Robust Labs LLC<br />
-                Brooklyn, New York<br />
-                <a href="mailto:hey@robustlabs.xyz">hey@robustlabs.xyz</a>
-            </p>
-        </div>
+    <h3>License to Operate</h3>
+    <p>By using our Services, you grant Robust Labs a limited license to:</p>
+    <ul>
+      <li>Store your content on our servers</li>
+      <li>Process your content with AI to deliver features (e.g., classification, extraction)</li>
+      <li>Sync your content with third-party services you authorize</li>
+      <li>Back up your content to prevent data loss</li>
+    </ul>
+    <p>This license exists solely to provide the Services. We will never sell your content or use it for purposes other than operating the Services.</p>
 
-        <footer>
-            <div class="footer-inner">
-                <span class="footer-copy">&copy; 2026 Robust Labs LLC. All rights reserved.</span>
-                <ul class="footer-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                </ul>
-            </div>
-        </footer>
-    </body>
+    <h3>Your Responsibilities</h3>
+    <ul>
+      <li>Do not upload content you do not have the right to share</li>
+      <li>Do not upload copyrighted material without proper authorization</li>
+      <li>You are responsible for maintaining backups of important data</li>
+    </ul>
+
+    <h2>5. Acceptable Use</h2>
+    <p>You agree not to:</p>
+    <ul>
+      <li>Use our Services for any illegal purpose</li>
+      <li>Upload malicious code, viruses, or malware</li>
+      <li>Attempt to compromise the security of our systems</li>
+      <li>Scrape, copy, or extract data using automated tools</li>
+      <li>Impersonate others or misrepresent your identity</li>
+      <li>Use our Services to send unsolicited communications</li>
+      <li>Interfere with the operation of our Services</li>
+    </ul>
+    <p>Violation of these terms may result in suspension or termination of your account.</p>
+
+    <h2>6. AI &amp; Data Processing</h2>
+    <p>Our products use AI and large language model (LLM) technology to provide intelligent features. When you use these features, your content is processed by our AI providers solely to deliver the requested functionality.</p>
+    <p>We do not use your content to train AI models. We do not share your content with third parties beyond what is required to provide the Services.</p>
+
+    <h2>7. Service Availability</h2>
+    <p>Our Services are provided on an "as is" basis. While we strive for reliability, we cannot guarantee:</p>
+    <ul>
+      <li>100% uptime or uninterrupted availability</li>
+      <li>Absence of bugs or errors</li>
+      <li>That the Services will meet every user's specific needs</li>
+    </ul>
+    <p>We will provide notice for scheduled maintenance when possible and work to resolve unexpected outages promptly.</p>
+
+    <h2>8. Termination</h2>
+    <h3>By You</h3>
+    <p>You may delete your account at any time through the account settings of the relevant product. Upon deletion, all your data will be permanently removed within 30 days.</p>
+
+    <h3>By Us</h3>
+    <p>We reserve the right to suspend or terminate accounts that violate these Terms. We will make reasonable efforts to provide notice before taking action, except in cases of serious or immediate violations.</p>
+
+    <h2>9. Limitation of Liability</h2>
+    <p>To the maximum extent permitted by law, Robust Labs LLC is not liable for:</p>
+    <ul>
+      <li>Loss of data (though we take reasonable precautions to prevent this)</li>
+      <li>Indirect, incidental, or consequential damages</li>
+      <li>Lost profits or business opportunities</li>
+      <li>Service interruptions</li>
+      <li>Actions of third-party service providers</li>
+    </ul>
+    <p>Our total liability is limited to the greater of (A) $100, or (B) amounts you have paid to Robust Labs in the preceding 12 months.</p>
+    <p>Some jurisdictions do not allow limitation of liability, so these limitations may not apply to you.</p>
+
+    <h2>10. Dispute Resolution</h2>
+    <p>If you have an issue, please contact us at <a href="mailto:hey@robustlabs.xyz">hey@robustlabs.xyz</a> first. We will make a good faith effort to resolve disputes informally.</p>
+    <p>These Terms are governed by the laws of the State of New York, United States. Any disputes not resolved informally will be subject to the jurisdiction of the courts in the State of New York.</p>
+
+    <h2>11. Changes to These Terms</h2>
+    <p>We may update these Terms from time to time. We will notify users by email of significant changes. Changes take effect 30 days after notification. Continued use of our Services after that period constitutes acceptance of the updated Terms.</p>
+    <p>If you do not agree with changes, you may delete your account before they take effect.</p>
+
+    <h2>12. Contact</h2>
+    <p>Questions about these Terms? Contact us:</p>
+    <p>
+      Robust Labs LLC<br />
+      Brooklyn, New York<br />
+      <a href="mailto:hey@robustlabs.xyz">hey@robustlabs.xyz</a>
+    </p>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Robust Labs LLC. All rights reserved.</span>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    function setTheme(t) {
+      document.documentElement.dataset.theme = t;
+      try { localStorage.setItem('rl-theme', t); } catch (e) {}
+    }
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function toggleTheme() {
+      var cur = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+      var next = cur === 'light' ? 'dark' : 'light';
+      if (!document.startViewTransition || reduceMotion.matches) { setTheme(next); return; }
+      document.documentElement.setAttribute('data-theme-direction', cur === 'light' ? 'ltr' : 'rtl');
+      document.startViewTransition(function () { setTheme(next); });
+    }
+    document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+      btn.addEventListener('click', toggleTheme);
+    });
+  </script>
+</body>
 </html>
