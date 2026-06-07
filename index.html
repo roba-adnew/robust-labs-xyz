@@ -179,8 +179,7 @@
     @media (prefers-reduced-motion: reduce) {
       .brand, .brand .mark, .word .name { transition: none; }
       .menu-btn { transition: border-color .2s; }
-      .menu { transition: opacity .12s ease; clip-path: none; }
-      .top-controls.is-open .menu { transition: opacity .12s ease; clip-path: none; }
+      .menu, .top-controls.is-open .menu { transition: visibility 0s; clip-path: none; }
     }
 
     /* ── Left rail (the docked home: nav + theme toggle) ──────────────────── */
@@ -399,45 +398,46 @@
 
     /* ── Mobile top-right controls: theme toggle + menu, level with the logo (< 900px) ── */
     .top-controls {
-      --menu-w: 216px;
+      --menu-w: 216px; --btn-w: 88px;
       display: none; position: fixed; top: .7rem; right: 1.15rem; z-index: 60;
       align-items: center; gap: .5rem;
     }
-    .menu-shell { position: relative; }   /* anchors the panel directly under the (widening) button */
+    .menu-shell { position: relative; }   /* anchors the panel directly under the widening button */
     .menu-btn {
-      position: relative; z-index: 2;     /* sits above the panel so it unfurls from underneath */
+      position: relative; z-index: 2;     /* sits above the panel as they expand together */
       display: inline-flex; align-items: center; justify-content: space-between; gap: .5rem;
-      width: 88px; padding: .55rem .85rem; overflow: hidden; white-space: nowrap;
+      width: var(--btn-w); padding: .55rem .85rem; overflow: hidden; white-space: nowrap;
       background: var(--rail-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--bd-hi); border-radius: 100px; color: var(--t1); cursor: pointer;
-      transition: width .18s cubic-bezier(.16,1,.3,1), border-radius .16s ease, border-color .2s, background-color .45s ease;
+      transition: width .32s cubic-bezier(.16,1,.3,1), border-radius .22s ease, border-color .2s, background-color .45s ease;
     }
     .menu-btn:hover { border-color: var(--ac-dim); }
     .menu-btn .mb-label { font-family: var(--fn-mono); font-size: .72rem; font-weight: 700; letter-spacing: .04em; }
     .menu-btn svg { color: var(--t2); flex-shrink: 0; }
 
-    /* PHASE 1 — the button widens out to the full menu width and squares its lower corners */
+    /* the button widens out to the full menu width and squares its lower corners */
     .top-controls.is-open .menu-btn {
       width: var(--menu-w); border-color: var(--ac-dim);
       border-bottom-left-radius: 9px; border-bottom-right-radius: 9px;
     }
 
-    /* PHASE 2 — the panel unfurls downward from just beneath the now-wide button */
+    /* the panel expands in lock-step with the button — identical duration + easing, no delay — so
+       it slides DOWN and widens leftward together, its visible width matching the button throughout */
     .menu {
       position: absolute; top: calc(100% + 6px); right: 0; z-index: 1;
       display: flex; flex-direction: column; width: var(--menu-w);
       background: var(--rail-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--bd-hi); border-radius: 12px; overflow: hidden;
       box-shadow: 0 18px 48px rgba(0,0,0,.46);
-      opacity: 0; visibility: hidden;
-      clip-path: inset(0 0 100% 0 round 12px);                 /* collapsed to its top edge */
-      transition: opacity .12s ease, clip-path .2s cubic-bezier(.16,1,.3,1), visibility 0s linear .2s;
+      visibility: hidden;
+      /* zero-height, button-width sliver pinned to the top-right (right under the button) */
+      clip-path: inset(0 0 100% calc(var(--menu-w) - var(--btn-w)) round 12px);
+      transition: clip-path .32s cubic-bezier(.16,1,.3,1), visibility 0s linear .32s;
     }
     .top-controls.is-open .menu {
-      opacity: 1; visibility: visible;
-      clip-path: inset(0 0 0 0 round 12px);                    /* revealed top→bottom = slides down */
-      /* delayed just past the .18s widen so the button finishes first, then a quick unfurl */
-      transition: opacity .12s ease .16s, clip-path .22s cubic-bezier(.16,1,.3,1) .16s, visibility 0s;
+      visibility: visible;
+      clip-path: inset(0 0 0 0 round 12px);
+      transition: clip-path .32s cubic-bezier(.16,1,.3,1), visibility 0s;
     }
     .menu-nav { display: flex; flex-direction: column; padding: .45rem 0; }
     .menu-nav a { font-family: var(--fn-mono); font-size: .82rem; color: var(--t2); padding: .6rem 1.15rem; transition: color .18s ease; }
