@@ -410,7 +410,7 @@
       width: 88px; padding: .55rem .85rem; overflow: hidden; white-space: nowrap;
       background: var(--rail-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--bd-hi); border-radius: 100px; color: var(--t1); cursor: pointer;
-      transition: width .26s cubic-bezier(.16,1,.3,1), border-radius .24s ease, border-color .2s, background-color .45s ease;
+      transition: width .18s cubic-bezier(.16,1,.3,1), border-radius .16s ease, border-color .2s, background-color .45s ease;
     }
     .menu-btn:hover { border-color: var(--ac-dim); }
     .menu-btn .mb-label { font-family: var(--fn-mono); font-size: .72rem; font-weight: 700; letter-spacing: .04em; }
@@ -431,13 +431,13 @@
       box-shadow: 0 18px 48px rgba(0,0,0,.46);
       opacity: 0; visibility: hidden;
       clip-path: inset(0 0 100% 0 round 12px);                 /* collapsed to its top edge */
-      transition: opacity .16s ease, clip-path .3s cubic-bezier(.16,1,.3,1), visibility 0s linear .34s;
+      transition: opacity .12s ease, clip-path .2s cubic-bezier(.16,1,.3,1), visibility 0s linear .2s;
     }
     .top-controls.is-open .menu {
       opacity: 1; visibility: visible;
       clip-path: inset(0 0 0 0 round 12px);                    /* revealed top→bottom = slides down */
-      /* delayed so the button finishes widening before the panel drops */
-      transition: opacity .16s ease .16s, clip-path .34s cubic-bezier(.16,1,.3,1) .16s, visibility 0s;
+      /* delayed just past the .18s widen so the button finishes first, then a quick unfurl */
+      transition: opacity .12s ease .16s, clip-path .22s cubic-bezier(.16,1,.3,1) .16s, visibility 0s;
     }
     .menu-nav { display: flex; flex-direction: column; padding: .45rem 0; }
     .menu-nav a { font-family: var(--fn-mono); font-size: .82rem; color: var(--t2); padding: .6rem 1.15rem; transition: color .18s ease; }
