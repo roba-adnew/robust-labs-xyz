@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tecla — Robust Labs</title>
+  <meta name="description" content="Tecla — a gesture-first iOS keyboard by Robust Labs." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" id="favicon" />
+
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('rl-theme');
+        var t = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = t;
+        var f = document.getElementById('favicon');
+        if (f && t === 'light') f.href = 'assets/favicon-light.svg';
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700&family=Bungee&family=Space+Grotesk:wght@400;500;700&family=Spline+Sans+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Tokens (shared with the landing page) ─────────────────────────── */
+    :root, [data-theme="dark"] {
+      color-scheme: dark;
+      --orange:#F7A521; --yellow:#F4D21C; --green:#1CA45A; --green-neon:#34E37B; --snug:.024em;
+      --bg:#0E0B08; --surf:#1C140F; --bd:rgba(239,231,221,0.10); --bd-hi:rgba(239,231,221,0.18);
+      --t1:#EFE7DD; --t2:#9D9081; --t3:#635646;
+      --ac:#F7A521; --ac-glow:rgba(247,165,33,0.10); --ac-dim:rgba(247,165,33,0.42); --on-ac:#16110B;
+      --nav-bg:rgba(14,11,8,0.82);
+      --fn:"Space Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+      --fn-display:"Archivo Black","Space Grotesk",sans-serif;
+      --fn-mark:"Bungee","Archivo Black",sans-serif;
+      --fn-mono:"Spline Sans Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+      --r:10px;
+    }
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg:#D6D6D5; --surf:#E3E3E1; --bd:rgba(26,22,17,0.12); --bd-hi:rgba(26,22,17,0.24);
+      --t1:#1A1611; --t2:#5C5347; --t3:#8A8073;
+      --ac:#16894A; --ac-glow:rgba(28,164,90,0.12); --ac-dim:rgba(28,164,90,0.42); --on-ac:#FFFFFF;
+      --nav-bg:rgba(214,214,213,0.82);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--t1);
+      font-family: var(--fn); line-height: 1.65; min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color .45s ease, color .45s ease;
+    }
+
+    /* ── RL echo mark + wordmark (brand) ───────────────────────────────── */
+    .echo { position: relative; display: inline-block; line-height: .86; }
+    .echo .lyr { position: absolute; left: 0; top: 0; }
+    .echo .ab { font-family: var(--fn-mark); letter-spacing: 0;
+      -webkit-text-fill-color: transparent; -webkit-text-stroke: 1.6px currentColor; }
+    .echo .base { display: inline-block; }
+    .echo .e3 { display: none; }
+    .nav-mark { font-size: 27px; }
+    [data-theme="light"] .echo .base { color: #1A1611; }
+    [data-theme="light"] .echo .e1 { display:block; left: var(--snug); top: calc(var(--snug)*.72); color: var(--green); mix-blend-mode: multiply; }
+    [data-theme="light"] .echo .e2 { display:block; left: calc(var(--snug)*2); top: calc(var(--snug)*1.5); color: var(--orange); mix-blend-mode: multiply; }
+    [data-theme="light"] .echo .e3 { display:none; }
+    [data-theme="dark"] .echo .e3 { display:block; left:0; top:0; color:#F4EEE3; }
+    [data-theme="dark"] .echo .e2 { display:block; left: var(--snug); top: calc(var(--snug)*.72); color: var(--yellow); mix-blend-mode: screen; }
+    [data-theme="dark"] .echo .e1 { display:none; }
+    [data-theme="dark"] .echo .base { color: var(--green-neon); mix-blend-mode: screen; transform: translate(calc(var(--snug)*2), calc(var(--snug)*1.44)); }
+    .nav-name { font-family: var(--fn-display); font-size: .92rem; letter-spacing: .02em; color: var(--t1); }
+    .nav-name b { font-weight: inherit; }
+    [data-theme="light"] .nav-name b { color: var(--green); }
+    [data-theme="dark"]  .nav-name b { color: var(--orange); }
+
+    /* ── Theme toggle + sliding wipe (View Transitions API) ────────────── */
+    .theme-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 100px;
+      background: var(--surf); color: var(--t1); border: 1px solid var(--bd-hi);
+      cursor: pointer; flex-shrink: 0;
+      transition: opacity .2s, border-color .2s, background-color .45s ease;
+    }
+    .theme-toggle:hover { opacity: .85; border-color: var(--ac-dim); }
+    .theme-toggle .tt-icon { width: 16px; height: 16px; }
+    [data-theme="dark"]  .theme-toggle .tt-moon { display: none; }
+    [data-theme="light"] .theme-toggle .tt-sun  { display: none; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 999; }
+    html[data-theme-direction="ltr"]::view-transition-new(root) { animation: wipe-ltr .4s ease-in-out; }
+    html[data-theme-direction="rtl"]::view-transition-new(root) { animation: wipe-rtl .4s ease-in-out; }
+    @keyframes wipe-ltr { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+    @keyframes wipe-rtl { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+
+    /* ── Sticky nav ────────────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100; padding: 0 2rem;
+      background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--bd);
+    }
+    .nav-inner {
+      max-width: 980px; margin: 0 auto; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+
+    /* ── Password gate ─────────────────────────────────────────────────── */
+    .gate { min-height: calc(100vh - 64px); display: grid; place-items: center; padding: 2rem; }
+    .gate-card {
+      width: 100%; max-width: 380px; background: var(--surf);
+      border: 1px solid var(--bd); border-radius: 16px; padding: 2rem;
+      text-align: center;
+    }
+    .gate-lock { font-size: 1.6rem; line-height: 1; margin-bottom: 1rem; }
+    .gate-card h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.01em; margin-bottom: .4rem; }
+    .gate-card p { font-size: .86rem; color: var(--t2); margin-bottom: 1.5rem; }
+    .gate-form { display: flex; flex-direction: column; gap: .7rem; }
+    .gate-form input {
+      width: 100%; padding: .7rem .9rem; border-radius: var(--r);
+      background: var(--bg); color: var(--t1);
+      border: 1px solid var(--bd-hi); font-family: var(--fn); font-size: .93rem;
+      transition: border-color .2s;
+    }
+    .gate-form input:focus { outline: none; border-color: var(--ac); }
+    .gate-form button {
+      padding: .7rem 1rem; border-radius: var(--r); border: 0; cursor: pointer;
+      background: var(--ac); color: var(--on-ac);
+      font-family: var(--fn); font-size: .9rem; font-weight: 700;
+      transition: opacity .2s;
+    }
+    .gate-form button:hover { opacity: .88; }
+    .gate-error {
+      font-family: var(--fn-mono); font-size: .74rem; letter-spacing: .03em;
+      color: #E5484D; min-height: 1.1em; margin-top: .2rem;
+    }
+    [hidden] { display: none !important; }
+
+    /* ── Content ───────────────────────────────────────────────────────── */
+    .container { max-width: 980px; margin: 0 auto; padding: 3.5rem 2rem 4rem; }
+    .eyebrow { font-family: var(--fn-mono); font-size: .72rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ac); margin-bottom: .6rem; }
+    h1.page { font-size: 2.4rem; font-weight: 700; letter-spacing: -.03em; margin-bottom: .6rem; }
+    .lede { font-size: 1rem; color: var(--t2); max-width: 56ch; margin-bottom: .8rem; }
+    .note { font-family: var(--fn-mono); font-size: .72rem; letter-spacing: .04em; color: var(--t3); }
+
+    h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.01em;
+      margin-top: 3.4rem; margin-bottom: .4rem; }
+    .sub { font-size: .88rem; color: var(--t2); margin-bottom: 1.6rem; }
+
+    .grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+    .concept {
+      background: var(--surf); border: 1px solid var(--bd); border-radius: 20px;
+      padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;
+    }
+    .concept h3 { font-size: .95rem; font-weight: 500; color: var(--t1); }
+    .sizes { display: flex; align-items: flex-end; gap: .9rem; flex-wrap: wrap; }
+    /* Each size renders the SAME art scaled from one 220px master, which is what
+       iOS does when it rasterises an icon — so small sizes here are honest. */
+    .shot { position: relative; overflow: hidden; flex-shrink: 0; background: #0B0B0B; }
+    .shot > .art {
+      position: absolute; top: 0; left: 0; width: 220px; height: 220px;
+      transform-origin: top left;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .caption { font-family: var(--fn-mono); font-size: .66rem; color: var(--t3); margin-top: .45rem; text-align: center; }
+    .shot-wrap { display: flex; flex-direction: column; align-items: center; }
+
+    /* ── Footer ────────────────────────────────────────────────────────── */
+    footer { max-width: 980px; margin: 0 auto; padding: 2rem; border-top: 1px solid var(--bd); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-family: var(--fn-mono); font-size: .72rem; color: var(--t3); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-family: var(--fn-mono); font-size: .72rem; color: var(--t3); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--t2); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .container { padding: 2.5rem 1.25rem 3rem; }
+      footer { padding: 2rem 1.25rem; }
+      h1.page { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand" aria-label="Robust Labs home">
+        <span class="echo nav-mark" aria-hidden="true">
+          <span class="ab base">RL</span><span class="ab lyr e1">RL</span><span class="ab lyr e2">RL</span><span class="ab lyr e3">RL</span>
+        </span>
+        <span class="nav-name">ROBUST<b>·</b>LABS</span>
+      </a>
+      <button class="theme-toggle" type="button" aria-label="Switch theme">
+        <svg class="tt-icon tt-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/>
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/>
+            <line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/>
+            <line x1="5.2" y1="5.2" x2="6.9" y2="6.9"/><line x1="17.1" y1="17.1" x2="18.8" y2="18.8"/>
+            <line x1="18.8" y1="5.2" x2="17.1" y2="6.9"/><line x1="6.9" y1="17.1" x2="5.2" y2="18.8"/>
+          </g>
+        </svg>
+        <svg class="tt-icon tt-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Gate ──────────────────────────────────────────────────────────── -->
+  <section class="gate" id="gate">
+    <div class="gate-card">
+      <div class="gate-lock" aria-hidden="true">🔐</div>
+      <h1>This page is private</h1>
+      <p>Tecla isn't public yet. Enter the password to take a look.</p>
+      <form class="gate-form" id="gate-form">
+        <label for="pw" class="sr-only" hidden>Password</label>
+        <input type="password" id="pw" autocomplete="current-password"
+               placeholder="Password" autofocus />
+        <button type="submit">Unlock</button>
+      </form>
+      <div class="gate-error" id="gate-error" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ── Content ───────────────────────────────────────────────────────── -->
+  <main id="content" hidden>
+    <div class="container">
+      <div class="eyebrow">In development</div>
+      <h1 class="page">Tecla</h1>
+      <p class="lede">
+        A gesture-first iOS keyboard. Familiar QWERTY, but press-and-hold reaches
+        numbers and punctuation without a mode switch, and directional swipes handle
+        the slow part of typing — deleting, undoing, and moving the cursor.
+      </p>
+      <p class="note">Robust Labs · iPhone · unreleased</p>
+
+      <h2>App icon concepts</h2>
+      <p class="sub">
+        Six directions, each shown at three sizes. The small renders are the same
+        artwork scaled down — the way iOS rasterises an icon — so the legibility you
+        see at 40&nbsp;px is roughly what a home screen would show.
+      </p>
+
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-copy">&copy; 2026 Robust Labs LLC. All rights reserved.</span>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Icon artwork, authored once per concept at 220px. The three preview sizes
+       are cloned from these, so editing an icon edits every size. -->
+  <template id="art-toothed">
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div style="width:132px;height:40px;background:#FFD400;border-radius:8px;display:flex;align-items:center;justify-content:center">
+        <div style="width:18px;height:18px;border-radius:50%;background:#0B0B0B"></div>
+      </div>
+      <div style="position:relative;width:34px;height:98px;background:#FFD400;border-radius:0 0 3px 3px">
+        <div style="position:absolute;right:0;top:52px;width:13px;height:11px;background:#0B0B0B"></div>
+        <div style="position:absolute;right:0;top:72px;width:13px;height:11px;background:#0B0B0B"></div>
+        <div style="position:absolute;right:0;bottom:0;width:20px;height:9px;background:#0B0B0B"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="art-keyhole">
+    <div style="width:152px;height:152px;border-radius:34px;background:#FFD400;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="width:104px;height:24px;background:#0B0B0B;border-radius:2px"></div>
+      <div style="width:40px;height:40px;border-radius:50%;background:#0B0B0B;margin-top:-2px"></div>
+      <div style="width:48px;height:40px;background:#0B0B0B;margin-top:-12px;clip-path:polygon(27% 0,73% 0,100% 100%,0% 100%)"></div>
+    </div>
+  </template>
+
+  <template id="art-inlock">
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div style="width:122px;height:36px;background:#FFD400;border-radius:18px;display:flex;align-items:center;justify-content:center">
+        <div style="width:15px;height:15px;border-radius:50%;background:#0B0B0B"></div>
+      </div>
+      <div style="position:relative;width:30px;height:62px;background:#FFD400">
+        <div style="position:absolute;right:0;top:22px;width:11px;height:9px;background:#0B0B0B"></div>
+        <div style="position:absolute;right:0;top:40px;width:11px;height:9px;background:#0B0B0B"></div>
+      </div>
+      <div style="position:relative;z-index:1;width:112px;height:44px;border-radius:10px;background:#FFD400;display:flex;justify-content:center;box-shadow:0 0 0 4px #0B0B0B">
+        <div style="width:38px;height:13px;background:#0B0B0B;border-radius:0 0 4px 4px"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="art-keyrow">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:7px">
+      <div style="display:flex;gap:7px">
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400"></div>
+      </div>
+      <div style="display:flex;gap:7px">
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+      </div>
+      <div style="display:flex;gap:7px">
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400;box-shadow:0 0 0 3px #0B0B0B,0 0 22px rgba(255,212,0,.55)"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="art-lockkey">
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div style="width:128px;height:38px;background:#FFD400;border-radius:19px;display:flex;align-items:center;justify-content:center">
+        <div style="width:17px;height:17px;border-radius:50%;background:#0B0B0B"></div>
+      </div>
+      <div style="position:relative;width:34px;height:96px;background:#FFD400;border-radius:0 0 4px 4px">
+        <div style="position:absolute;right:0;top:40px;width:13px;height:12px;background:#0B0B0B"></div>
+        <div style="position:absolute;right:0;top:64px;width:19px;height:12px;background:#0B0B0B"></div>
+        <div style="position:absolute;left:0;top:78px;width:12px;height:18px;background:#0B0B0B"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="art-keygrid">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'Archivo',sans-serif;font-weight:700;font-size:22px;color:#0B0B0B">
+      <div style="display:flex;gap:7px">
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400;display:flex;align-items:center;justify-content:center">T</div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400;display:flex;align-items:center;justify-content:center">E</div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400;display:flex;align-items:center;justify-content:center">C</div>
+      </div>
+      <div style="display:flex;gap:7px">
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400;display:flex;align-items:center;justify-content:center">L</div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+      </div>
+      <div style="display:flex;gap:7px">
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#FFD400;display:flex;align-items:center;justify-content:center">A</div>
+        <div style="width:42px;height:42px;border-radius:10px;background:#262626"></div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    /* ── Theme toggle (shared behaviour with the other pages) ──────────── */
+    function setTheme(t) {
+      document.documentElement.dataset.theme = t;
+      var f = document.getElementById('favicon');
+      if (f) f.href = t === 'light' ? 'assets/favicon-light.svg' : 'assets/favicon.svg';
+      try { localStorage.setItem('rl-theme', t); } catch (e) {}
+    }
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function toggleTheme() {
+      var cur = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+      var next = cur === 'light' ? 'dark' : 'light';
+      if (!document.startViewTransition || reduceMotion.matches) { setTheme(next); return; }
+      document.documentElement.setAttribute('data-theme-direction', cur === 'light' ? 'ltr' : 'rtl');
+      document.startViewTransition(function () { setTheme(next); });
+    }
+    document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+      btn.addEventListener('click', toggleTheme);
+    });
+
+    /* ── Icon grid ─────────────────────────────────────────────────────
+       One 220px master per concept; 88 and 40 are the same nodes scaled.
+       Radius scales with the tile so the squircle stays proportional.    */
+    var MASTER = 220, RADIUS = 48;
+    var CONCEPTS = [
+      { id: 'art-toothed', name: 'Toothed key' },
+      { id: 'art-keyhole', name: 'T-shaped keyhole' },
+      { id: 'art-inlock',  name: 'Key in the lock' },
+      { id: 'art-keyrow',  name: 'Key row' },
+      { id: 'art-lockkey', name: 'Lock key' },
+      { id: 'art-keygrid', name: 'T-E-C-L-A keygrid' }
+    ];
+
+    function tile(templateId, size) {
+      var wrap = document.createElement('div');
+      wrap.className = 'shot-wrap';
+
+      var shot = document.createElement('div');
+      shot.className = 'shot';
+      shot.style.width = size + 'px';
+      shot.style.height = size + 'px';
+      shot.style.borderRadius = (RADIUS * size / MASTER) + 'px';
+
+      var art = document.createElement('div');
+      art.className = 'art';
+      art.style.transform = 'scale(' + (size / MASTER) + ')';
+      art.appendChild(document.getElementById(templateId).content.cloneNode(true));
+
+      shot.appendChild(art);
+      wrap.appendChild(shot);
+
+      var cap = document.createElement('div');
+      cap.className = 'caption';
+      cap.textContent = size + 'px';
+      wrap.appendChild(cap);
+      return wrap;
+    }
+
+    function buildGrid() {
+      var grid = document.getElementById('grid');
+      if (grid.childElementCount) return;             // idempotent
+      CONCEPTS.forEach(function (c) {
+        var card = document.createElement('article');
+        card.className = 'concept';
+
+        var h3 = document.createElement('h3');
+        h3.textContent = c.name;
+        card.appendChild(h3);
+
+        card.appendChild(tile(c.id, MASTER));
+
+        var row = document.createElement('div');
+        row.className = 'sizes';
+        row.appendChild(tile(c.id, 88));
+        row.appendChild(tile(c.id, 40));
+        card.appendChild(row);
+
+        grid.appendChild(card);
+      });
+    }
+
+    /* ── Gate ───────────────────────────────────────────────────────────
+       A courtesy lock, NOT security: the page ships to the browser either
+       way, so anyone who opens devtools can read it. It only keeps the
+       page from being casually browsed or read over a shoulder. Move to a
+       server-side check before anything actually confidential lives here.
+       The password is stored as a SHA-256 digest so it is at least not
+       sitting in the page source in plain text.                          */
+    var PW_HASH = '48a53f0774c8ceff574a1fdcb0d470dbd382b3db273cff4344b6d39d5379c923';
+    var UNLOCKED_KEY = 'rl-tecla-unlocked';
+
+    async function sha256(text) {
+      var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+      return Array.from(new Uint8Array(buf))
+        .map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+    }
+
+    function unlock() {
+      document.getElementById('gate').hidden = true;
+      document.getElementById('content').hidden = false;
+      buildGrid();
+    }
+
+    // Stay unlocked for the session so a refresh doesn't ask again.
+    try {
+      if (sessionStorage.getItem(UNLOCKED_KEY) === '1') unlock();
+    } catch (e) {}
+
+    document.getElementById('gate-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var input = document.getElementById('pw');
+      var err = document.getElementById('gate-error');
+      var ok = false;
+      try {
+        ok = (await sha256(input.value)) === PW_HASH;
+      } catch (e) {
+        // crypto.subtle needs a secure context (https or localhost).
+        err.textContent = 'Unavailable over plain http — try the https URL.';
+        return;
+      }
+      if (ok) {
+        try { sessionStorage.setItem(UNLOCKED_KEY, '1'); } catch (e) {}
+        unlock();
+      } else {
+        err.textContent = 'Wrong password.';
+        input.value = '';
+        input.focus();
+      }
+    });
+  </script>
+</body>
+</html>
